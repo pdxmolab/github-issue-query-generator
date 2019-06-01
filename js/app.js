@@ -65,19 +65,64 @@
   var selectedTypes = []
   var selectedRepos = []
 
+  function openInGit()
+  {
+    const querySyntax = handleSyntaxGeneration()
+    console.log(querySyntax)
+    const githubLink = handleURLGeneration(querySyntax)
+    console.log(githubLink)
+    window.open(githubLink, '_blank');
+  }
+
+  function handleURLGeneration(query)
+  {
+    let ret = ""
+    let base  = "https://github.com/issues?utf8=%E2%9C%93&&q="
+    let colon = "%3A"
+    let space = "+"
+
+    let mod = ""
+    for (var i=0; i<query.length; i++)
+    {
+      if (query[i] === ":")
+      {
+        mod = mod+colon
+      }
+      else if (query[i] === " ")
+      {
+        mod = mod+space
+      }
+      else
+      {
+        mod = mod + query[i]
+      }
+    }
+
+    return base+mod
+  }
+
   function handleSyntaxGeneration()
   {
     let org = "org:pdxmolab"
     let ret = ""
 
+    if (selectedRepos.length === 0 || selectedRepos.length > 1)
+    {
+      ret = ret + org
+    }
+
     ret = ret + generateLabels(selectedPriorities, "Priority")
     ret = ret + generateLabels(selectedTypes, "Type")
     ret = ret + generateLabels(selectedRepos, "Repository")
 
+    handleURLGeneration(ret)
+
+    const out = document.getElementById("output")
+    out.innerHTML = ret
+
     console.log(ret)
 
-    const ta = document.getElementById("output")
-    ta.innerHTML = ret
+    return ret
   }
 
   function generateLabels(selected, name)
@@ -129,6 +174,8 @@
       list = []
     }
 
+    console.log(list)
+
     return list
   }
 
@@ -156,16 +203,21 @@
 
       for (var j=0; j<rowItem.length; j++)
       {
-        let item = rowItem[j]
-        if (String(item.tagName).toUpperCase() === "INPUT")
+        let divWrapper = rowItem[j].children
+
+        for (var k=0; k<divWrapper.length; k++)
         {
-          if (e.target.checked === true)
+          let item = divWrapper[k]
+          if (String(item.tagName).toUpperCase() === "INPUT")
           {
-            item.checked = true;
-          }
-          else
-          {
-            item.checked = false;
+            if (e.target.checked === true)
+            {
+              item.checked = true;
+            }
+            else
+            {
+              item.checked = false;
+            }
           }
         }
       }
@@ -209,20 +261,28 @@
     for (var i=0; i<keys.length; i++)
     {
       const key = keys[i]
-      const row = document.getElementById(`${key}`)
+      const selected = document.getElementById(`${key}`)
+      const rowTitleContainer = document.createElement("div")
       const rowTitle = document.createElement("div")
       rowTitle.classList.add("rowTitle")
+      rowTitle.classList.add("titleBadge")
+      rowTitle.classList.add("mdc-typography--button")
       rowTitle.innerHTML = `${key}`
-      row.appendChild(rowTitle)
+      rowTitleContainer.appendChild(rowTitle)
+      selected.appendChild(rowTitleContainer)
 
+      const rowContentContainer = document.createElement("div")
+      rowContentContainer.classList.add("rowContentContainer")
       const options = data[key]
       for (var j=0; j<options.length; j++)
       {
         const option = options[j]
         const wrapper = document.createElement('div')
         wrapper.classList.add("rowItem")
+        wrapper.classList.add("mdc-form-field")
 
         const checkbox = document.createElement('input')
+        checkbox.classList.add("mdc-checkbox")
         if (option === "All")
         {
           checkbox.addEventListener("click", handleAll);
@@ -236,19 +296,22 @@
         checkbox.value = 0
         checkbox.id = option
 
-        var label = document.createElement('label')
-        label.htmlFor = option
+        var label = document.createElement('div')
         label.appendChild(document.createTextNode(`${option}`))
 
         wrapper.appendChild(checkbox)
         wrapper.appendChild(label);
-        row.appendChild(wrapper);
+        rowContentContainer.appendChild(wrapper);
+        selected.appendChild(rowContentContainer);
       }
     }
 
     // Click Handers
     const generateQueryButton = document.getElementById("generateButton")
     generateQueryButton.addEventListener("click", handleSyntaxGeneration);
+
+    const openInGithub = document.getElementById("githubButton")
+    openInGithub.addEventListener("click", openInGit);
   }
 
   initUI()
