@@ -67,11 +67,14 @@
 
   function handleSyntaxGeneration()
   {
-    let ret = "org:pdxmolab"
+    let org = "org:pdxmolab"
+    let ret = ""
 
     ret = ret + generateLabels(selectedPriorities, "Priority")
     ret = ret + generateLabels(selectedTypes, "Type")
     ret = ret + generateLabels(selectedRepos, "Repository")
+
+    console.log(ret)
 
     const ta = document.getElementById("output")
     ta.innerHTML = ret
@@ -95,7 +98,7 @@
     {
       if (selected.length === 1 )
       {
-        ret = ret+space+`${header}${name}:${selected[0]}`
+        ret = ret+space+`${header}:${map[selected[0]]}`
       }
       else
       {
@@ -113,6 +116,60 @@
     }
 
     return ret
+  }
+
+  function handleAllCheck(e, list)
+  {
+    if (e.target.checked === true)
+    {
+      list = data[e.target.name]
+    }
+    else
+    {
+      list = []
+    }
+
+    return list
+  }
+
+  function handleAll(e)
+  {
+    // Handle state
+    if (e.target.name === "Repository")
+    {
+      selectedRepos = handleAllCheck(e, selectedRepos)
+    }
+    else if (e.target.name === "Type")
+    {
+      selectedTypes = handleAllCheck(e, selectedTypes)
+    }
+    else if (e.target.name === "Priority")
+    {
+      selectedPriorities = handleAllCheck(e, selectedPriorities)
+    }
+
+    // Handle UI
+    let rowChildren = document.getElementById(e.target.name).children
+    for (var i=0; i<rowChildren.length; i++)
+    {
+      let rowItem = rowChildren[i].children
+
+      for (var j=0; j<rowItem.length; j++)
+      {
+        let item = rowItem[j]
+        if (String(item.tagName).toUpperCase() === "INPUT")
+        {
+          if (e.target.checked === true)
+          {
+            item.checked = true;
+          }
+          else
+          {
+            item.checked = false;
+          }
+        }
+      }
+    }
   }
 
   function handleClick(e)
@@ -140,7 +197,7 @@
     else
     {
       const ind = arr.indexOf(item)
-      arr.slice(0,item).concat(arr.slice(item+1))
+      arr = arr.slice(0,ind).concat(arr.slice(ind+1))
     }
 
     return arr
@@ -166,7 +223,14 @@
         wrapper.classList.add("rowItem")
 
         const checkbox = document.createElement('input')
-        checkbox.addEventListener("click", handleClick);
+        if (option === "All")
+        {
+          checkbox.addEventListener("click", handleAll);
+        }
+        else
+        {
+          checkbox.addEventListener("click", handleClick);
+        }
         checkbox.type = "checkbox"
         checkbox.name = `${key}`
         checkbox.value = 0
