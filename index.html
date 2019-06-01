@@ -9,19 +9,22 @@
     <!-- CSS -->
     <link href="css/app.css" rel="stylesheet" />
 
-    <!-- JS -->
-    <script src="js/app.js"></script>
-
   </head>
   <body>
     <div class="navbar">
-
+      <div class="navTitle">GitHub Issue Query Syntax Generator</div>
     </div>
 
     <div class="content">
-      <div id="repository" class="row"></div>
-      <div id="type" class="row"></div>
-      <div id="priority" class="row"></div>
+      <div id="Repository" class="row"></div>
+      <div id="Type" class="row"></div>
+      <div id="Priority" class="row"></div>
+
+      <button id="generateButton" class="generateButton">Generate Query Syntax</button>
+      <textarea id="output" class="output"></textarea>
     </div>
+
+  <!-- JS -->
+  <script src="js/app.js"></script>
   </body>
 </html>
