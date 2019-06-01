@@ -21,18 +21,21 @@
     <header class="mdc-toolbar navbar">
       <div class="mdc-toolbar__row">
         <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
-          <span class="mdc-toolbar__title navTitle">GitHub Issue Query Generator</span>
+          <span class="mdc-toolbar__title mdc-typography--button navTitle">GitHub Issue Query Generator</span>
         </section>
       </div>
     </header>
 
     <div class="content">
       <div id="Repository" class="row"></div>
+      <div id="Pipeline" class="row"></div>
       <div id="Type" class="row"></div>
       <div id="Priority" class="row"></div>
+
       <div class="buttonContainer">
         <button id="githubButton" class="genButton mdc-typography--button">Open Query in GitHub</button>
         <button id="generateButton" class="genButton mdc-typography--button">Generate Query Syntax</button>
+        <button id="clipCopy" class="genButton mdc-typography--button">Copy Query to Clipboard</button>
       </div>
 
       <div id="output" class="output mdc-typography--body1"></div>

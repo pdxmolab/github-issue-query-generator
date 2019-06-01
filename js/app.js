@@ -24,6 +24,11 @@
     "High": "Priority:High",
     "Medium": "Priority:Medium",
     "Low": "Priority:Low",
+    "Tso500": "Pipeline:Tso500",
+    "Archer": "Pipeline:Archer",
+    "Tst170": "Pipeline:Tst170",
+    "Miseq": "Pipeline:Miseq",
+    "Triseq": "Pipeline:Triseq",
   }
 
   const data = {
@@ -59,18 +64,24 @@
       "Medium",
       "Low",
     ],
+    "Pipeline": [
+      "Tso500",
+      "Archer",
+      "Tst170",
+      "Miseq",
+      "Triseq",
+    ],
   }
 
   var selectedPriorities = []
   var selectedTypes = []
   var selectedRepos = []
+  var selectedPipelines = []
 
   function openInGit()
   {
     const querySyntax = handleSyntaxGeneration()
-    console.log(querySyntax)
     const githubLink = handleURLGeneration(querySyntax)
-    console.log(githubLink)
     window.open(githubLink, '_blank');
   }
 
@@ -111,17 +122,15 @@
       ret = ret + org
     }
 
-    ret = ret + generateLabels(selectedPriorities, "Priority")
-    ret = ret + generateLabels(selectedTypes, "Type")
     ret = ret + generateLabels(selectedRepos, "Repository")
+    ret = ret + generateLabels(selectedTypes, "Type")
+    ret = ret + generateLabels(selectedPriorities, "Priority")
+    ret = ret + generateLabels(selectedPipelines, "Pipeline")
 
     handleURLGeneration(ret)
 
     const out = document.getElementById("output")
     out.innerHTML = ret
-
-    console.log(ret)
-
     return ret
   }
 
@@ -194,6 +203,10 @@
     {
       selectedPriorities = handleAllCheck(e, selectedPriorities)
     }
+    else if (e.target.name === "Pipeline")
+    {
+      selectedPipelines = handleAllCheck(e, selectedPipelines)
+    }
 
     // Handle UI
     let rowChildren = document.getElementById(e.target.name).children
@@ -238,6 +251,10 @@
     {
       selectedPriorities = attemptPush(selectedPriorities, e.target.id)
     }
+    else if (e.target.name === "Pipeline")
+    {
+      selectedPipelines = attemptPush(selectedPipelines, e.target.id)
+    }
   }
 
   function attemptPush(arr, item)
@@ -253,6 +270,22 @@
     }
 
     return arr
+  }
+
+  function copyToClip()
+  {
+    let text = document.getElementById("output")
+    let ta = document.createElement('textarea')
+    ta.style.position = 'fixed';
+    ta.style.left = '0';
+    ta.style.top = '0';
+    ta.style.opacity = '0';
+    ta.value = text.innerHTML
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
   }
 
   function initUI()
@@ -312,6 +345,9 @@
 
     const openInGithub = document.getElementById("githubButton")
     openInGithub.addEventListener("click", openInGit);
+
+    const clopy = document.getElementById("clipCopy")
+    clopy.addEventListener("click", copyToClip);
   }
 
   initUI()
