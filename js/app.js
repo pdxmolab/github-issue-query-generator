@@ -127,6 +127,11 @@
     ret = ret + generateLabels(selectedPriorities, "Priority")
     ret = ret + generateLabels(selectedPipelines, "Pipeline")
 
+    if (document.getElementById("userID").value !== "")
+    {
+      ret = ret + " assignee:" + document.getElementById("userID").value
+    }
+
     handleURLGeneration(ret)
 
     const out = document.getElementById("output")
@@ -338,6 +343,28 @@
         selected.appendChild(rowContentContainer);
       }
     }
+
+    const assignee = document.getElementById('Assignee')
+    const rowTitleContainer = document.createElement("div")
+    const rowTitle = document.createElement("div")
+    rowTitle.classList.add("rowTitle")
+    rowTitle.classList.add("titleBadge")
+    rowTitle.classList.add("mdc-typography--button")
+    rowTitle.innerHTML = "Assignee (GitHub Username)"
+    rowTitleContainer.appendChild(rowTitle)
+    assignee.appendChild(rowTitleContainer)
+
+    const wrapper = document.createElement('div')
+    wrapper.classList.add("rowItem")
+    wrapper.classList.add("mdc-form-field")
+    const assigneeInput = document.createElement("input")
+    assigneeInput.id = "userID"
+    assigneeInput.classList.add("assigneeInput")
+    assigneeInput.classList.add("mdc-typography--body1")
+    wrapper.appendChild(assigneeInput)
+    assignee.appendChild(wrapper)
+    // checkbox.addEventListener("click", handleAll);
+
 
     // Click Handers
     const generateQueryButton = document.getElementById("generateButton")

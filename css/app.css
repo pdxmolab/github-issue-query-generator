@@ -3,6 +3,21 @@
   --main-font-color: #FFFFFF;
 }
 
+.assigneeInput
+{
+  height: 20px;
+  width: 300px;
+  outline: none !important;
+  border-bottom: 1px solid var(--main-bg-color) !important;
+  box-shadow: none !important;
+  border-style: none;
+}
+
+.assigneeInput:focus
+{
+  outline: none !important;
+}
+
 .buttonContainer
 {
   margin-top: 10px;
