@@ -77,6 +77,7 @@
   var selectedTypes = []
   var selectedRepos = []
   var selectedPipelines = []
+  var noAssignee = ""
 
   function openInGit()
   {
@@ -130,6 +131,10 @@
     if (document.getElementById("userID").value !== "")
     {
       ret = ret + " assignee:" + document.getElementById("userID").value
+    }
+    else if (noAssignee !== "")
+    {
+      ret = ret + noAssignee
     }
 
     handleURLGeneration(ret)
@@ -191,6 +196,18 @@
     console.log(list)
 
     return list
+  }
+
+  function handleNoAsignee(e)
+  {
+    if (e.target.checked === true)
+    {
+      noAssignee = " no:assignee"
+    }
+    else
+    {
+      noAssignee = ""
+    }
   }
 
   function handleAll(e)
@@ -357,14 +374,36 @@
     const wrapper = document.createElement('div')
     wrapper.classList.add("rowItem")
     wrapper.classList.add("mdc-form-field")
+
     const assigneeInput = document.createElement("input")
     assigneeInput.id = "userID"
     assigneeInput.classList.add("assigneeInput")
-    assigneeInput.classList.add("mdc-typography--body1")
     wrapper.appendChild(assigneeInput)
-    assignee.appendChild(wrapper)
-    // checkbox.addEventListener("click", handleAll);
 
+
+    const orSpacer = document.createElement("div")
+    orSpacer.classList.add("orSpacer")
+    orSpacer.innerHTML = ("Or")
+    wrapper.appendChild(orSpacer)
+    assignee.appendChild(wrapper)
+
+    const assignWrapper = document.createElement('div')
+    assignWrapper.classList.add("rowItem")
+    assignWrapper.classList.add("mdc-form-field")
+    const noAssignCheckbox = document.createElement('input')
+    noAssignCheckbox.classList.add("mdc-checkbox")
+    noAssignCheckbox.addEventListener("click", handleNoAsignee);
+    noAssignCheckbox.type = "checkbox"
+    noAssignCheckbox.name = "noAssignee"
+    noAssignCheckbox.value = 0
+    noAssignCheckbox.id = "noAssignee"
+
+    var noAssignLabel = document.createElement('div')
+    noAssignLabel.appendChild(document.createTextNode("Not Assigned"))
+
+    assignWrapper.appendChild(noAssignCheckbox)
+    assignWrapper.appendChild(noAssignLabel)
+    assignee.appendChild(assignWrapper)
 
     // Click Handers
     const generateQueryButton = document.getElementById("generateButton")
