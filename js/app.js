@@ -78,6 +78,7 @@
   var selectedRepos = []
   var selectedPipelines = []
   var noAssignee = ""
+  var issueStatus = "statusAll"
 
   function openInGit()
   {
@@ -124,6 +125,7 @@
     }
 
     ret = ret + generateLabels(selectedRepos, "Repository")
+    ret = ret + checkIssueStatus()
     ret = ret + generateLabels(selectedTypes, "Type")
     ret = ret + generateLabels(selectedPriorities, "Priority")
     ret = ret + generateLabels(selectedPipelines, "Pipeline")
@@ -142,6 +144,22 @@
     const out = document.getElementById("output")
     out.innerHTML = ret
     return ret
+  }
+
+  function checkIssueStatus()
+  {
+    if (issueStatus === "statusAll")
+    {
+      return ""
+    }
+    else if (issueStatus === "statusOpen")
+    {
+      return " is:open"
+    }
+    else if (issueStatus === "statusClosed")
+    {
+      return " is:closed"
+    }
   }
 
   function generateLabels(selected, name)
@@ -192,8 +210,6 @@
     {
       list = []
     }
-
-    console.log(list)
 
     return list
   }
@@ -258,6 +274,12 @@
       }
     }
   }
+
+  function handleOpenClose(e)
+  {
+    issueStatus = e.target.id
+  }
+
 
   function handleClick(e)
   {
@@ -361,6 +383,7 @@
       }
     }
 
+    // Assignee
     const assignee = document.getElementById('Assignee')
     const rowTitleContainer = document.createElement("div")
     const rowTitle = document.createElement("div")
@@ -379,7 +402,6 @@
     assigneeInput.id = "userID"
     assigneeInput.classList.add("assigneeInput")
     wrapper.appendChild(assigneeInput)
-
 
     const orSpacer = document.createElement("div")
     orSpacer.classList.add("orSpacer")
@@ -406,6 +428,15 @@
     assignee.appendChild(assignWrapper)
 
     // Click Handers
+    const statusAll = document.getElementById("statusAll")
+    statusAll.addEventListener("click", handleOpenClose);
+
+    const statusOpen = document.getElementById("statusOpen")
+    statusOpen.addEventListener("click", handleOpenClose);
+
+    const statusClosed = document.getElementById("statusClosed")
+    statusClosed.addEventListener("click", handleOpenClose);
+
     const generateQueryButton = document.getElementById("generateButton")
     generateQueryButton.addEventListener("click", handleSyntaxGeneration);
 

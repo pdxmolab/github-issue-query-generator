@@ -27,6 +27,38 @@
     </header>
 
     <div class="content">
+      <div id="Status" class="row">
+        <div class="rowTitle titleBadge mdc-typography--button">Status</div>
+        <div class="mdc-form-field">
+          <div class="mdc-radio">
+            <input class="mdc-radio__native-control" type="radio" id="statusAll" name="radios" checked>
+            <div class="mdc-radio__background">
+              <div class="mdc-radio__outer-circle"></div>
+              <div class="mdc-radio__inner-circle"></div>
+            </div>
+          </div>
+          <label for="statusAll">All</label>
+
+          <div class="mdc-radio">
+            <input class="mdc-radio__native-control" type="radio" id="statusOpen" name="radios">
+            <div class="mdc-radio__background">
+              <div class="mdc-radio__outer-circle"></div>
+              <div class="mdc-radio__inner-circle"></div>
+            </div>
+          </div>
+          <label for="statusOpen">Open</label>
+
+          <div class="mdc-radio">
+            <input class="mdc-radio__native-control" type="radio" id="statusClosed" name="radios">
+            <div class="mdc-radio__background">
+              <div class="mdc-radio__outer-circle"></div>
+              <div class="mdc-radio__inner-circle"></div>
+            </div>
+          </div>
+          <label for="statusClosed">Closed</label>
+        </div>
+      </div>
+
       <div id="Repository" class="row"></div>
       <div id="Pipeline" class="row"></div>
       <div id="Type" class="row"></div>
