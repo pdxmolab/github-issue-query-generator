@@ -3,7 +3,7 @@
   --main-font-color: #FFFFFF;
 }
 
-.assigneeInput
+.assigneeInput, .projectInput
 {
   height: 20px;
   width: 300px;

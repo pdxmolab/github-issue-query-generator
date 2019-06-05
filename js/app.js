@@ -139,6 +139,11 @@
       ret = ret + noAssignee
     }
 
+    if (document.getElementById("projectID").value !== "")
+    {
+      ret = ret + " project:pdxmolab/" + document.getElementById("projectID").value
+    }
+
     handleURLGeneration(ret)
 
     const out = document.getElementById("output")
@@ -382,6 +387,19 @@
         selected.appendChild(rowContentContainer);
       }
     }
+
+    // Project
+    const project = document.getElementById('Project')
+
+    const projectWrapper = document.createElement('div')
+    projectWrapper.classList.add("rowItem")
+    projectWrapper.classList.add("mdc-form-field")
+
+    const projectInput = document.createElement("input")
+    projectInput.id = "projectID"
+    projectInput.classList.add("projectInput")
+    projectWrapper.appendChild(projectInput)
+    project.appendChild(projectWrapper)
 
     // Assignee
     const assignee = document.getElementById('Assignee')
