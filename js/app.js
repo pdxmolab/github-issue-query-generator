@@ -139,6 +139,16 @@
       ret = ret + noAssignee
     }
 
+    if (document.getElementById("titleID").value !== "")
+    {
+      ret = ret + " " + document.getElementById("titleID").value + " " + "in:title"
+    }
+
+    if (document.getElementById("bodyID").value !== "")
+    {
+      ret = ret + " " + document.getElementById("bodyID").value +"in:body"
+    }
+
     if (document.getElementById("projectID").value !== "")
     {
       ret = ret + " project:pdxmolab/" + document.getElementById("projectID").value
@@ -387,6 +397,30 @@
         selected.appendChild(rowContentContainer);
       }
     }
+
+    // TITLE
+    const title = document.getElementById('Title')
+    const titleWrapper = document.createElement('div')
+    titleWrapper.classList.add("rowItem")
+    titleWrapper.classList.add("mdc-form-field")
+
+    const titleInput = document.createElement("input")
+    titleInput.id = "titleID"
+    titleInput.classList.add("titleInput")
+    titleWrapper.appendChild(titleInput)
+    title.appendChild(titleWrapper)
+
+    // BODY
+    const body = document.getElementById('Body')
+    const bodyWrapper = document.createElement('div')
+    bodyWrapper.classList.add("rowItem")
+    bodyWrapper.classList.add("mdc-form-field")
+
+    const bodyInput = document.createElement("input")
+    bodyInput.id = "bodyID"
+    bodyInput.classList.add("bodyInput")
+    bodyWrapper.appendChild(bodyInput)
+    body.appendChild(bodyWrapper)
 
     // Project
     const project = document.getElementById('Project')
